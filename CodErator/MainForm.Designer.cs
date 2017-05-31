@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBoxConnectInfo = new System.Windows.Forms.GroupBox();
             this.radioDatabaseSQLServer = new System.Windows.Forms.RadioButton();
@@ -42,7 +43,11 @@
             this.labelUser = new System.Windows.Forms.Label();
             this.labelPort = new System.Windows.Forms.Label();
             this.labelIP = new System.Windows.Forms.Label();
+            this.connectInfoTip = new System.Windows.Forms.ToolTip(this.components);
+            this.tableList = new System.Windows.Forms.ListBox();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBoxConnectInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBoxConnectInfo
@@ -69,6 +74,7 @@
             // radioDatabaseSQLServer
             // 
             this.radioDatabaseSQLServer.AutoSize = true;
+            this.radioDatabaseSQLServer.Enabled = false;
             this.radioDatabaseSQLServer.Location = new System.Drawing.Point(158, 153);
             this.radioDatabaseSQLServer.Name = "radioDatabaseSQLServer";
             this.radioDatabaseSQLServer.Size = new System.Drawing.Size(107, 24);
@@ -95,29 +101,41 @@
             this.textPass.Location = new System.Drawing.Point(76, 122);
             this.textPass.Name = "textPass";
             this.textPass.PasswordChar = '●';
-            this.textPass.Size = new System.Drawing.Size(189, 27);
+            this.textPass.Size = new System.Drawing.Size(160, 27);
             this.textPass.TabIndex = 9;
+            this.textPass.Leave += new System.EventHandler(this.textPass_Leave);
+            this.textPass.MouseEnter += new System.EventHandler(this.text_MouseEnter);
+            this.textPass.MouseLeave += new System.EventHandler(this.text_MouseLeave);
             // 
             // textUser
             // 
             this.textUser.Location = new System.Drawing.Point(76, 92);
             this.textUser.Name = "textUser";
-            this.textUser.Size = new System.Drawing.Size(189, 27);
+            this.textUser.Size = new System.Drawing.Size(160, 27);
             this.textUser.TabIndex = 8;
+            this.textUser.Leave += new System.EventHandler(this.textUser_Leave);
+            this.textUser.MouseEnter += new System.EventHandler(this.text_MouseEnter);
+            this.textUser.MouseLeave += new System.EventHandler(this.text_MouseLeave);
             // 
             // textPort
             // 
             this.textPort.Location = new System.Drawing.Point(76, 62);
             this.textPort.Name = "textPort";
-            this.textPort.Size = new System.Drawing.Size(189, 27);
+            this.textPort.Size = new System.Drawing.Size(160, 27);
             this.textPort.TabIndex = 7;
+            this.textPort.Leave += new System.EventHandler(this.textPort_Leave);
+            this.textPort.MouseEnter += new System.EventHandler(this.text_MouseEnter);
+            this.textPort.MouseLeave += new System.EventHandler(this.text_MouseLeave);
             // 
             // textIP
             // 
             this.textIP.Location = new System.Drawing.Point(76, 32);
             this.textIP.Name = "textIP";
-            this.textIP.Size = new System.Drawing.Size(189, 27);
+            this.textIP.Size = new System.Drawing.Size(160, 27);
             this.textIP.TabIndex = 6;
+            this.textIP.Leave += new System.EventHandler(this.textIP_Leave);
+            this.textIP.MouseEnter += new System.EventHandler(this.text_MouseEnter);
+            this.textIP.MouseLeave += new System.EventHandler(this.text_MouseLeave);
             // 
             // btnConnect
             // 
@@ -127,6 +145,7 @@
             this.btnConnect.TabIndex = 5;
             this.btnConnect.Text = "连接";
             this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // labelDatabase
             // 
@@ -173,11 +192,35 @@
             this.labelIP.TabIndex = 0;
             this.labelIP.Text = "IP";
             // 
+            // connectInfoTip
+            // 
+            this.connectInfoTip.AutoPopDelay = 3000;
+            this.connectInfoTip.InitialDelay = 500;
+            this.connectInfoTip.ReshowDelay = 500;
+            this.connectInfoTip.ShowAlways = true;
+            // 
+            // tableList
+            // 
+            this.tableList.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.tableList.FormattingEnabled = true;
+            this.tableList.ItemHeight = 19;
+            this.tableList.Location = new System.Drawing.Point(12, 250);
+            this.tableList.Name = "tableList";
+            this.tableList.Size = new System.Drawing.Size(271, 422);
+            this.tableList.TabIndex = 1;
+            // 
+            // errorProvider
+            // 
+            this.errorProvider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider.ContainerControl = this;
+            this.errorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("errorProvider.Icon")));
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.tableList);
             this.Controls.Add(this.groupBoxConnectInfo);
             this.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -190,6 +233,7 @@
             this.Text = "CodeErator";
             this.groupBoxConnectInfo.ResumeLayout(false);
             this.groupBoxConnectInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -209,5 +253,8 @@
         private System.Windows.Forms.TextBox textIP;
         private System.Windows.Forms.RadioButton radioDatabaseSQLServer;
         private System.Windows.Forms.RadioButton radioDatabaseMySQL;
+        private System.Windows.Forms.ToolTip connectInfoTip;
+        private System.Windows.Forms.ListBox tableList;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

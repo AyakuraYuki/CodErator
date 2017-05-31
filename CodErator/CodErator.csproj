@@ -35,7 +35,7 @@
     <StartupObject>CodErator.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon\logo.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
@@ -107,14 +107,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="icon\logo.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="lib\MySql.Data.dll" />
     <EmbeddedResource Include="lib\MySql.Data.Entity.EF5.dll" />
     <EmbeddedResource Include="lib\MySql.Data.Entity.EF6.dll" />
     <EmbeddedResource Include="lib\MySql.Fabric.Plugin.dll" />
     <EmbeddedResource Include="lib\MySql.Web.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StatusCriticalError.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

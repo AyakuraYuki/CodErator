@@ -1,47 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodErator
+﻿namespace CodErator
 {
     class SQLConnectHelper
     {
-        private static string ip;
-        private static int port;
-        private static string user;
-        private static string pass;
-        private static string database;
+        private static readonly SQLConnectHelper instance = null; /* 单例设计 */
+        private string ip;
+        private uint port;
+        private string user;
+        private string pass;
+        private string database;
 
-        public static string IP
+        static SQLConnectHelper()
+        {
+            instance = new SQLConnectHelper();
+        }
+
+        private SQLConnectHelper()
+        {
+        }
+
+        public static SQLConnectHelper Instance
+        {
+            get => instance;
+        }
+
+        public string IP
         {
             get => ip;
             set => ip = value;
         }
-        public static int Port
+        public uint Port
         {
             get => port;
             set => port = value;
         }
-        public static string User
+        public string User
         {
             get => user;
             set => user = value;
         }
-        public static string Pass
+        public string Pass
         {
             get => pass;
             set => pass = value;
         }
-        public static string Database
+        public string Database
         {
             get => database;
             set => database = value.ToLower();
         }
         /*
          * sql connecting string
-         * server=localhost;user id=root;password=root;persistsecurityinfo=True;database=studentstate
+         * server=IP;port=port;User ID=username;Password=password;database=schema_name;
          */
     }
 }
