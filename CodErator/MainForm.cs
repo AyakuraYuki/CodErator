@@ -2,14 +2,8 @@
 using CodErator.DBHelper;
 using CodErator.DBHelper.MySQL;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CodErator
@@ -29,29 +23,29 @@ namespace CodErator
         private void text_MouseEnter(object sender, EventArgs e)
         {
             if (((TextBox)sender).Equals(textIP))
-                connectInfoTip.Show("输入需要连接的数据库IP地址", textIP);
+                infoTip.Show("输入需要连接的数据库IP地址", textIP);
             if (((TextBox)sender).Equals(textPort))
-                connectInfoTip.SetToolTip(textPort, "输入需要连接到的端口号，端口范围0 - 65536。");
+                infoTip.SetToolTip(textPort, "输入需要连接到的端口号，端口范围0 - 65536。");
             if (((TextBox)sender).Equals(textUser))
-                connectInfoTip.SetToolTip(textUser, "数据库连接用户名");
+                infoTip.SetToolTip(textUser, "数据库连接用户名");
             if (((TextBox)sender).Equals(textPass))
-                connectInfoTip.SetToolTip(textPass, "数据库连接密码");
+                infoTip.SetToolTip(textPass, "数据库连接密码");
             if (((TextBox)sender).Equals(textSchema))
-                connectInfoTip.SetToolTip(textSchema, "需要访问的数据库名称(schema name)");
+                infoTip.SetToolTip(textSchema, "需要访问的数据库名称(schema name)");
         }
 
         private void text_MouseLeave(object sender, EventArgs e)
         {
             if (((TextBox)sender).Equals(textIP))
-                connectInfoTip.Hide(textIP);
+                infoTip.Hide(textIP);
             if (((TextBox)sender).Equals(textPort))
-                connectInfoTip.Hide(textPort);
+                infoTip.Hide(textPort);
             if (((TextBox)sender).Equals(textUser))
-                connectInfoTip.Hide(textUser);
+                infoTip.Hide(textUser);
             if (((TextBox)sender).Equals(textPass))
-                connectInfoTip.Hide(textPass);
+                infoTip.Hide(textPass);
             if (((TextBox)sender).Equals(textSchema))
-                connectInfoTip.Hide(textSchema);
+                infoTip.Hide(textSchema);
         }
         #endregion
 
@@ -63,7 +57,7 @@ namespace CodErator
             Regex regex = new Regex(reg);
             if ("localhost".Equals(textIP.Text))
             {
-                connector.IP = textIP.Text;
+                connector.IP = textIP.Text.ToLower();
                 errorProvider.Clear();
             }
             else if (!regex.IsMatch(textIP.Text))
@@ -133,13 +127,50 @@ namespace CodErator
             catch (DatabaseConnectingException exception)
             {
                 MessageBox.Show(exception.Message, "连接到数据库时出现了一个问题。");
+                return;
             }
             catch (NoDatabaseSelectedException exception)
             {
                 MessageBox.Show(exception.Message, "是不是缺少了什么参数？");
+                return;
             }
         }
         #endregion
 
+        #region 代码生成的数据预备
+        private void tableList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DataTable dataTable = mysqlHelper.GetTableColumns(tableList.SelectedItem.ToString());
+
+            dataTable.Columns["COLUMN_NAME"].ColumnName = "列名";
+            dataTable.Columns["IS_NULLABLE"].ColumnName = "允许为空";
+            dataTable.Columns["DATA_TYPE"].ColumnName = "数据类型";
+            dataTable.Columns["CHARACTER_MAXIMUM_LENGTH"].ColumnName = "最大长度";
+            dataTable.Columns["CHARACTER_SET_NAME"].ColumnName = "编码集";
+            dataTable.Columns["COLUMN_TYPE"].ColumnName = "列数据类型";
+            dataTable.Columns["COLUMN_COMMENT"].ColumnName = "备注";
+
+            dgvColumns.DataSource = dataTable;
+        }
+
+
+        #endregion
+
+        #region 生成选项
+        private void radioButtonCSharp_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonCSharp.Checked == true)
+            {
+                checkBoxDao.Enabled = false;
+                checkBoxService.Enabled = false;
+            }
+            else
+            {
+                checkBoxDao.Enabled = true;
+                checkBoxService.Enabled = true;
+            }
+        }
+
+        #endregion
     }
 }

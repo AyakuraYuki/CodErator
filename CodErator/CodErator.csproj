@@ -58,8 +58,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\MySql.Web.dll</HintPath>
     </Reference>
+    <Reference Include="RazorEngine, Version=3.9.3.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.9.3\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -74,6 +80,8 @@
     <Compile Include="CustomException\NoDatabaseSelectedException.cs" />
     <Compile Include="DBHelper\MySQL\MySQLHelper.cs" />
     <Compile Include="CustomException\DatabaseConnectingException.cs" />
+    <Compile Include="GenerateUnit\GenerateUtil.cs" />
+    <Compile Include="CustomMethodHelper\TemplateMethod.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +104,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -105,6 +114,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Templates\CSharp\Entity.cshtml" />
+    <None Include="Templates\Java\Entity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -125,5 +136,9 @@
   <ItemGroup>
     <None Include="Resources\StatusCriticalError.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

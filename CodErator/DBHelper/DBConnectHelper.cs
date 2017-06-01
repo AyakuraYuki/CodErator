@@ -48,9 +48,5 @@
             get => schema;
             set => schema = value.ToLower();
         }
-        /*
-         * sql connecting string
-         * server=IP;port=port;User ID=username;Password=password;database=schema_name;
-         */
     }
 }

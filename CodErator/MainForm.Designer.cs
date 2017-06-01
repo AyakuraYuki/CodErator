@@ -42,15 +42,24 @@
             this.labelUser = new System.Windows.Forms.Label();
             this.labelPort = new System.Windows.Forms.Label();
             this.labelIP = new System.Windows.Forms.Label();
-            this.connectInfoTip = new System.Windows.Forms.ToolTip(this.components);
+            this.infoTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableList = new System.Windows.Forms.ListBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.tabControl = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.mySQLHelperBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dgvColumns = new System.Windows.Forms.DataGridView();
+            this.radioButtonJava = new System.Windows.Forms.RadioButton();
+            this.radioButtonCSharp = new System.Windows.Forms.RadioButton();
+            this.groupBoxLanguage = new System.Windows.Forms.GroupBox();
+            this.groupBoxTargetObject = new System.Windows.Forms.GroupBox();
+            this.checkBoxEntity = new System.Windows.Forms.CheckBox();
+            this.checkBoxDao = new System.Windows.Forms.CheckBox();
+            this.checkBoxService = new System.Windows.Forms.CheckBox();
             this.groupBoxConnectInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
-            this.tabControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mySQLHelperBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).BeginInit();
+            this.groupBoxLanguage.SuspendLayout();
+            this.groupBoxTargetObject.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxConnectInfo
@@ -179,12 +188,12 @@
             this.labelIP.TabIndex = 0;
             this.labelIP.Text = "IP";
             // 
-            // connectInfoTip
+            // infoTip
             // 
-            this.connectInfoTip.AutoPopDelay = 3000;
-            this.connectInfoTip.InitialDelay = 500;
-            this.connectInfoTip.ReshowDelay = 500;
-            this.connectInfoTip.ShowAlways = true;
+            this.infoTip.AutoPopDelay = 3000;
+            this.infoTip.InitialDelay = 500;
+            this.infoTip.ReshowDelay = 500;
+            this.infoTip.ShowAlways = true;
             // 
             // tableList
             // 
@@ -195,6 +204,7 @@
             this.tableList.Name = "tableList";
             this.tableList.Size = new System.Drawing.Size(271, 422);
             this.tableList.TabIndex = 1;
+            this.tableList.SelectedIndexChanged += new System.EventHandler(this.tableList_SelectedIndexChanged);
             // 
             // errorProvider
             // 
@@ -202,42 +212,106 @@
             this.errorProvider.ContainerControl = this;
             this.errorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("errorProvider.Icon")));
             // 
-            // tabControl
+            // mySQLHelperBindingSource
             // 
-            this.tabControl.Controls.Add(this.tabPage1);
-            this.tabControl.Controls.Add(this.tabPage2);
-            this.tabControl.Location = new System.Drawing.Point(289, 61);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(963, 612);
-            this.tabControl.TabIndex = 2;
+            this.mySQLHelperBindingSource.DataSource = typeof(CodErator.DBHelper.MySQL.MySQLHelper);
             // 
-            // tabPage1
+            // dgvColumns
             // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 29);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(955, 579);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "表内字段";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.dgvColumns.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvColumns.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.dgvColumns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvColumns.Location = new System.Drawing.Point(309, 12);
+            this.dgvColumns.Name = "dgvColumns";
+            this.dgvColumns.ReadOnly = true;
+            this.dgvColumns.RowTemplate.Height = 23;
+            this.dgvColumns.Size = new System.Drawing.Size(943, 494);
+            this.dgvColumns.TabIndex = 0;
             // 
-            // tabPage2
+            // radioButtonJava
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(955, 559);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "代码生成预览";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.radioButtonJava.AutoSize = true;
+            this.radioButtonJava.Location = new System.Drawing.Point(20, 60);
+            this.radioButtonJava.Name = "radioButtonJava";
+            this.radioButtonJava.Size = new System.Drawing.Size(57, 24);
+            this.radioButtonJava.TabIndex = 0;
+            this.radioButtonJava.TabStop = true;
+            this.radioButtonJava.Text = "Java";
+            this.radioButtonJava.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonCSharp
+            // 
+            this.radioButtonCSharp.AutoSize = true;
+            this.radioButtonCSharp.Location = new System.Drawing.Point(20, 30);
+            this.radioButtonCSharp.Name = "radioButtonCSharp";
+            this.radioButtonCSharp.Size = new System.Drawing.Size(47, 24);
+            this.radioButtonCSharp.TabIndex = 1;
+            this.radioButtonCSharp.TabStop = true;
+            this.radioButtonCSharp.Text = "C#";
+            this.radioButtonCSharp.UseVisualStyleBackColor = true;
+            this.radioButtonCSharp.CheckedChanged += new System.EventHandler(this.radioButtonCSharp_CheckedChanged);
+            // 
+            // groupBoxLanguage
+            // 
+            this.groupBoxLanguage.Controls.Add(this.radioButtonCSharp);
+            this.groupBoxLanguage.Controls.Add(this.radioButtonJava);
+            this.groupBoxLanguage.Location = new System.Drawing.Point(309, 512);
+            this.groupBoxLanguage.Name = "groupBoxLanguage";
+            this.groupBoxLanguage.Size = new System.Drawing.Size(107, 157);
+            this.groupBoxLanguage.TabIndex = 2;
+            this.groupBoxLanguage.TabStop = false;
+            this.groupBoxLanguage.Text = "目标语言";
+            // 
+            // groupBoxTargetObject
+            // 
+            this.groupBoxTargetObject.Controls.Add(this.checkBoxService);
+            this.groupBoxTargetObject.Controls.Add(this.checkBoxDao);
+            this.groupBoxTargetObject.Controls.Add(this.checkBoxEntity);
+            this.groupBoxTargetObject.Location = new System.Drawing.Point(422, 512);
+            this.groupBoxTargetObject.Name = "groupBoxTargetObject";
+            this.groupBoxTargetObject.Size = new System.Drawing.Size(107, 157);
+            this.groupBoxTargetObject.TabIndex = 3;
+            this.groupBoxTargetObject.TabStop = false;
+            this.groupBoxTargetObject.Text = "生成目标";
+            // 
+            // checkBoxEntity
+            // 
+            this.checkBoxEntity.AutoSize = true;
+            this.checkBoxEntity.Location = new System.Drawing.Point(20, 30);
+            this.checkBoxEntity.Name = "checkBoxEntity";
+            this.checkBoxEntity.Size = new System.Drawing.Size(69, 24);
+            this.checkBoxEntity.TabIndex = 0;
+            this.checkBoxEntity.Text = "Entity";
+            this.checkBoxEntity.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxDao
+            // 
+            this.checkBoxDao.AutoSize = true;
+            this.checkBoxDao.Location = new System.Drawing.Point(20, 60);
+            this.checkBoxDao.Name = "checkBoxDao";
+            this.checkBoxDao.Size = new System.Drawing.Size(57, 24);
+            this.checkBoxDao.TabIndex = 1;
+            this.checkBoxDao.Text = "Dao";
+            this.checkBoxDao.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxService
+            // 
+            this.checkBoxService.AutoSize = true;
+            this.checkBoxService.Location = new System.Drawing.Point(20, 90);
+            this.checkBoxService.Name = "checkBoxService";
+            this.checkBoxService.Size = new System.Drawing.Size(81, 24);
+            this.checkBoxService.TabIndex = 2;
+            this.checkBoxService.Text = "Service";
+            this.checkBoxService.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 681);
-            this.Controls.Add(this.tabControl);
+            this.Controls.Add(this.groupBoxTargetObject);
+            this.Controls.Add(this.dgvColumns);
+            this.Controls.Add(this.groupBoxLanguage);
             this.Controls.Add(this.tableList);
             this.Controls.Add(this.groupBoxConnectInfo);
             this.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -252,7 +326,12 @@
             this.groupBoxConnectInfo.ResumeLayout(false);
             this.groupBoxConnectInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
-            this.tabControl.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mySQLHelperBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).EndInit();
+            this.groupBoxLanguage.ResumeLayout(false);
+            this.groupBoxLanguage.PerformLayout();
+            this.groupBoxTargetObject.ResumeLayout(false);
+            this.groupBoxTargetObject.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -270,12 +349,18 @@
         private System.Windows.Forms.TextBox textUser;
         private System.Windows.Forms.TextBox textPort;
         private System.Windows.Forms.TextBox textIP;
-        private System.Windows.Forms.ToolTip connectInfoTip;
+        private System.Windows.Forms.ToolTip infoTip;
         private System.Windows.Forms.ListBox tableList;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.TextBox textSchema;
-        private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.BindingSource mySQLHelperBindingSource;
+        private System.Windows.Forms.DataGridView dgvColumns;
+        private System.Windows.Forms.RadioButton radioButtonCSharp;
+        private System.Windows.Forms.RadioButton radioButtonJava;
+        private System.Windows.Forms.GroupBox groupBoxLanguage;
+        private System.Windows.Forms.GroupBox groupBoxTargetObject;
+        private System.Windows.Forms.CheckBox checkBoxService;
+        private System.Windows.Forms.CheckBox checkBoxDao;
+        private System.Windows.Forms.CheckBox checkBoxEntity;
     }
 }
