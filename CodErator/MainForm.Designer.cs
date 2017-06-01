@@ -31,8 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBoxConnectInfo = new System.Windows.Forms.GroupBox();
-            this.radioDatabaseSQLServer = new System.Windows.Forms.RadioButton();
-            this.radioDatabaseMySQL = new System.Windows.Forms.RadioButton();
+            this.textSchema = new System.Windows.Forms.TextBox();
             this.textPass = new System.Windows.Forms.TextBox();
             this.textUser = new System.Windows.Forms.TextBox();
             this.textPort = new System.Windows.Forms.TextBox();
@@ -46,14 +45,17 @@
             this.connectInfoTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableList = new System.Windows.Forms.ListBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBoxConnectInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            this.tabControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxConnectInfo
             // 
-            this.groupBoxConnectInfo.Controls.Add(this.radioDatabaseSQLServer);
-            this.groupBoxConnectInfo.Controls.Add(this.radioDatabaseMySQL);
+            this.groupBoxConnectInfo.Controls.Add(this.textSchema);
             this.groupBoxConnectInfo.Controls.Add(this.textPass);
             this.groupBoxConnectInfo.Controls.Add(this.textUser);
             this.groupBoxConnectInfo.Controls.Add(this.textPort);
@@ -71,30 +73,15 @@
             this.groupBoxConnectInfo.TabStop = false;
             this.groupBoxConnectInfo.Text = "连接信息";
             // 
-            // radioDatabaseSQLServer
+            // textSchema
             // 
-            this.radioDatabaseSQLServer.AutoSize = true;
-            this.radioDatabaseSQLServer.Enabled = false;
-            this.radioDatabaseSQLServer.Location = new System.Drawing.Point(158, 153);
-            this.radioDatabaseSQLServer.Name = "radioDatabaseSQLServer";
-            this.radioDatabaseSQLServer.Size = new System.Drawing.Size(107, 24);
-            this.radioDatabaseSQLServer.TabIndex = 11;
-            this.radioDatabaseSQLServer.TabStop = true;
-            this.radioDatabaseSQLServer.Text = "SQL Server";
-            this.radioDatabaseSQLServer.UseVisualStyleBackColor = true;
-            this.radioDatabaseSQLServer.CheckedChanged += new System.EventHandler(this.radioDatabase_CheckedChanged);
-            // 
-            // radioDatabaseMySQL
-            // 
-            this.radioDatabaseMySQL.AutoSize = true;
-            this.radioDatabaseMySQL.Location = new System.Drawing.Point(76, 153);
-            this.radioDatabaseMySQL.Name = "radioDatabaseMySQL";
-            this.radioDatabaseMySQL.Size = new System.Drawing.Size(79, 24);
-            this.radioDatabaseMySQL.TabIndex = 10;
-            this.radioDatabaseMySQL.TabStop = true;
-            this.radioDatabaseMySQL.Text = "MySQL";
-            this.radioDatabaseMySQL.UseVisualStyleBackColor = true;
-            this.radioDatabaseMySQL.CheckedChanged += new System.EventHandler(this.radioDatabase_CheckedChanged);
+            this.textSchema.Location = new System.Drawing.Point(76, 152);
+            this.textSchema.Name = "textSchema";
+            this.textSchema.Size = new System.Drawing.Size(160, 27);
+            this.textSchema.TabIndex = 10;
+            this.textSchema.Leave += new System.EventHandler(this.textSchema_Leave);
+            this.textSchema.MouseEnter += new System.EventHandler(this.text_MouseEnter);
+            this.textSchema.MouseLeave += new System.EventHandler(this.text_MouseLeave);
             // 
             // textPass
             // 
@@ -215,11 +202,42 @@
             this.errorProvider.ContainerControl = this;
             this.errorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("errorProvider.Icon")));
             // 
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.tabPage1);
+            this.tabControl.Controls.Add(this.tabPage2);
+            this.tabControl.Location = new System.Drawing.Point(289, 61);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(963, 612);
+            this.tabControl.TabIndex = 2;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(955, 579);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "表内字段";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(955, 559);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "代码生成预览";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.tabControl);
             this.Controls.Add(this.tableList);
             this.Controls.Add(this.groupBoxConnectInfo);
             this.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -234,6 +252,7 @@
             this.groupBoxConnectInfo.ResumeLayout(false);
             this.groupBoxConnectInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            this.tabControl.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -251,10 +270,12 @@
         private System.Windows.Forms.TextBox textUser;
         private System.Windows.Forms.TextBox textPort;
         private System.Windows.Forms.TextBox textIP;
-        private System.Windows.Forms.RadioButton radioDatabaseSQLServer;
-        private System.Windows.Forms.RadioButton radioDatabaseMySQL;
         private System.Windows.Forms.ToolTip connectInfoTip;
         private System.Windows.Forms.ListBox tableList;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.TextBox textSchema;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }

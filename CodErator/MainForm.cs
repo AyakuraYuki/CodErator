@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CodErator.CustomException;
+using CodErator.DBHelper;
+using CodErator.DBHelper.MySQL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,14 +16,13 @@ namespace CodErator
 {
     public partial class MainForm : Form
     {
-        private SQLConnectHelper connector;
+        private DBConnectHelper connector;
+        private MySQLHelper mysqlHelper;
 
         public MainForm()
         {
             InitializeComponent();
-            connector = SQLConnectHelper.Instance;
-            connectInfoTip.SetToolTip(radioDatabaseMySQL, "连接到MySQL");
-            connectInfoTip.SetToolTip(radioDatabaseSQLServer, "连接到SQL Server");
+            connector = DBConnectHelper.Instance;
         }
 
         #region 控件悬停提示
@@ -34,6 +36,8 @@ namespace CodErator
                 connectInfoTip.SetToolTip(textUser, "数据库连接用户名");
             if (((TextBox)sender).Equals(textPass))
                 connectInfoTip.SetToolTip(textPass, "数据库连接密码");
+            if (((TextBox)sender).Equals(textSchema))
+                connectInfoTip.SetToolTip(textSchema, "需要访问的数据库名称(schema name)");
         }
 
         private void text_MouseLeave(object sender, EventArgs e)
@@ -46,6 +50,8 @@ namespace CodErator
                 connectInfoTip.Hide(textUser);
             if (((TextBox)sender).Equals(textPass))
                 connectInfoTip.Hide(textPass);
+            if (((TextBox)sender).Equals(textSchema))
+                connectInfoTip.Hide(textSchema);
         }
         #endregion
 
@@ -111,29 +117,27 @@ namespace CodErator
             connector.Pass = textPass.Text;
         }
 
-        private void radioDatabase_CheckedChanged(object sender, EventArgs e)
+        private void textSchema_Leave(object sender, EventArgs e)
         {
-            if (!((RadioButton)sender).Checked)
-            {
-                return;
-            }
-            switch (((RadioButton)sender).Text.ToString())
-            {
-                case "MySQL":
-                    connector.Database = "mysql";
-                    break;
-                case "SQL Server":
-                    connector.Database = "sqlserver";
-                    break;
-                default:
-                    connector.Database = string.Empty;
-                    break;
-            }
+            connector.Schema = textSchema.Text;
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-
+            mysqlHelper = new MySQLHelper();
+            tableList.Items.Clear();
+            try
+            {
+                tableList.Items.AddRange(mysqlHelper.GetTableList().ToArray());
+            }
+            catch (DatabaseConnectingException exception)
+            {
+                MessageBox.Show(exception.Message, "连接到数据库时出现了一个问题。");
+            }
+            catch (NoDatabaseSelectedException exception)
+            {
+                MessageBox.Show(exception.Message, "是不是缺少了什么参数？");
+            }
         }
         #endregion
 

@@ -1,24 +1,24 @@
-﻿namespace CodErator
+﻿namespace CodErator.DBHelper
 {
-    class SQLConnectHelper
+    class DBConnectHelper
     {
-        private static readonly SQLConnectHelper instance = null; /* 单例设计 */
+        private static readonly DBConnectHelper instance = null; /* 单例设计 */
         private string ip;
         private uint port;
         private string user;
         private string pass;
-        private string database;
+        private string schema;
 
-        static SQLConnectHelper()
+        static DBConnectHelper()
         {
-            instance = new SQLConnectHelper();
+            instance = new DBConnectHelper();
         }
 
-        private SQLConnectHelper()
+        private DBConnectHelper()
         {
         }
 
-        public static SQLConnectHelper Instance
+        public static DBConnectHelper Instance
         {
             get => instance;
         }
@@ -43,10 +43,10 @@
             get => pass;
             set => pass = value;
         }
-        public string Database
+        public string Schema
         {
-            get => database;
-            set => database = value.ToLower();
+            get => schema;
+            set => schema = value.ToLower();
         }
         /*
          * sql connecting string
