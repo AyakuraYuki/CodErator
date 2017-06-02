@@ -51,9 +51,14 @@
             this.radioButtonCSharp = new System.Windows.Forms.RadioButton();
             this.groupBoxLanguage = new System.Windows.Forms.GroupBox();
             this.groupBoxTargetObject = new System.Windows.Forms.GroupBox();
-            this.checkBoxEntity = new System.Windows.Forms.CheckBox();
-            this.checkBoxDao = new System.Windows.Forms.CheckBox();
             this.checkBoxService = new System.Windows.Forms.CheckBox();
+            this.checkBoxDao = new System.Windows.Forms.CheckBox();
+            this.checkBoxEntity = new System.Windows.Forms.CheckBox();
+            this.labelOutputPath = new System.Windows.Forms.Label();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.textSavePath = new System.Windows.Forms.TextBox();
+            this.btnFolderBrowser = new System.Windows.Forms.Button();
+            this.btnGoGoGo = new System.Windows.Forms.Button();
             this.groupBoxConnectInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mySQLHelperBindingSource)).BeginInit();
@@ -88,6 +93,7 @@
             this.textSchema.Name = "textSchema";
             this.textSchema.Size = new System.Drawing.Size(160, 27);
             this.textSchema.TabIndex = 10;
+            this.infoTip.SetToolTip(this.textSchema, "需要访问的数据库名称(schema name)");
             this.textSchema.Leave += new System.EventHandler(this.textSchema_Leave);
             this.textSchema.MouseEnter += new System.EventHandler(this.text_MouseEnter);
             this.textSchema.MouseLeave += new System.EventHandler(this.text_MouseLeave);
@@ -99,6 +105,7 @@
             this.textPass.PasswordChar = '●';
             this.textPass.Size = new System.Drawing.Size(160, 27);
             this.textPass.TabIndex = 9;
+            this.infoTip.SetToolTip(this.textPass, "数据库连接密码");
             this.textPass.Leave += new System.EventHandler(this.textPass_Leave);
             this.textPass.MouseEnter += new System.EventHandler(this.text_MouseEnter);
             this.textPass.MouseLeave += new System.EventHandler(this.text_MouseLeave);
@@ -109,6 +116,7 @@
             this.textUser.Name = "textUser";
             this.textUser.Size = new System.Drawing.Size(160, 27);
             this.textUser.TabIndex = 8;
+            this.infoTip.SetToolTip(this.textUser, "数据库连接用户名");
             this.textUser.Leave += new System.EventHandler(this.textUser_Leave);
             this.textUser.MouseEnter += new System.EventHandler(this.text_MouseEnter);
             this.textUser.MouseLeave += new System.EventHandler(this.text_MouseLeave);
@@ -119,6 +127,7 @@
             this.textPort.Name = "textPort";
             this.textPort.Size = new System.Drawing.Size(160, 27);
             this.textPort.TabIndex = 7;
+            this.infoTip.SetToolTip(this.textPort, "输入需要连接到的端口号，端口范围0 - 65536。");
             this.textPort.Leave += new System.EventHandler(this.textPort_Leave);
             this.textPort.MouseEnter += new System.EventHandler(this.text_MouseEnter);
             this.textPort.MouseLeave += new System.EventHandler(this.text_MouseLeave);
@@ -129,6 +138,7 @@
             this.textIP.Name = "textIP";
             this.textIP.Size = new System.Drawing.Size(160, 27);
             this.textIP.TabIndex = 6;
+            this.infoTip.SetToolTip(this.textIP, "输入需要连接的数据库IP地址");
             this.textIP.Leave += new System.EventHandler(this.textIP_Leave);
             this.textIP.MouseEnter += new System.EventHandler(this.text_MouseEnter);
             this.textIP.MouseLeave += new System.EventHandler(this.text_MouseLeave);
@@ -202,8 +212,10 @@
             this.tableList.ItemHeight = 19;
             this.tableList.Location = new System.Drawing.Point(12, 250);
             this.tableList.Name = "tableList";
+            this.tableList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.tableList.Size = new System.Drawing.Size(271, 422);
             this.tableList.TabIndex = 1;
+            this.infoTip.SetToolTip(this.tableList, "多选以选择需要生成的表");
             this.tableList.SelectedIndexChanged += new System.EventHandler(this.tableList_SelectedIndexChanged);
             // 
             // errorProvider
@@ -274,15 +286,15 @@
             this.groupBoxTargetObject.TabStop = false;
             this.groupBoxTargetObject.Text = "生成目标";
             // 
-            // checkBoxEntity
+            // checkBoxService
             // 
-            this.checkBoxEntity.AutoSize = true;
-            this.checkBoxEntity.Location = new System.Drawing.Point(20, 30);
-            this.checkBoxEntity.Name = "checkBoxEntity";
-            this.checkBoxEntity.Size = new System.Drawing.Size(69, 24);
-            this.checkBoxEntity.TabIndex = 0;
-            this.checkBoxEntity.Text = "Entity";
-            this.checkBoxEntity.UseVisualStyleBackColor = true;
+            this.checkBoxService.AutoSize = true;
+            this.checkBoxService.Location = new System.Drawing.Point(20, 90);
+            this.checkBoxService.Name = "checkBoxService";
+            this.checkBoxService.Size = new System.Drawing.Size(81, 24);
+            this.checkBoxService.TabIndex = 2;
+            this.checkBoxService.Text = "Service";
+            this.checkBoxService.UseVisualStyleBackColor = true;
             // 
             // checkBoxDao
             // 
@@ -294,21 +306,62 @@
             this.checkBoxDao.Text = "Dao";
             this.checkBoxDao.UseVisualStyleBackColor = true;
             // 
-            // checkBoxService
+            // checkBoxEntity
             // 
-            this.checkBoxService.AutoSize = true;
-            this.checkBoxService.Location = new System.Drawing.Point(20, 90);
-            this.checkBoxService.Name = "checkBoxService";
-            this.checkBoxService.Size = new System.Drawing.Size(81, 24);
-            this.checkBoxService.TabIndex = 2;
-            this.checkBoxService.Text = "Service";
-            this.checkBoxService.UseVisualStyleBackColor = true;
+            this.checkBoxEntity.AutoSize = true;
+            this.checkBoxEntity.Location = new System.Drawing.Point(20, 30);
+            this.checkBoxEntity.Name = "checkBoxEntity";
+            this.checkBoxEntity.Size = new System.Drawing.Size(69, 24);
+            this.checkBoxEntity.TabIndex = 0;
+            this.checkBoxEntity.Text = "Entity";
+            this.checkBoxEntity.UseVisualStyleBackColor = true;
+            // 
+            // labelOutputPath
+            // 
+            this.labelOutputPath.AutoSize = true;
+            this.labelOutputPath.Location = new System.Drawing.Point(562, 512);
+            this.labelOutputPath.Name = "labelOutputPath";
+            this.labelOutputPath.Size = new System.Drawing.Size(69, 20);
+            this.labelOutputPath.TabIndex = 4;
+            this.labelOutputPath.Text = "输出位置";
+            // 
+            // textSavePath
+            // 
+            this.textSavePath.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.textSavePath.Location = new System.Drawing.Point(566, 542);
+            this.textSavePath.Name = "textSavePath";
+            this.textSavePath.Size = new System.Drawing.Size(564, 25);
+            this.textSavePath.TabIndex = 5;
+            // 
+            // btnFolderBrowser
+            // 
+            this.btnFolderBrowser.Location = new System.Drawing.Point(1148, 540);
+            this.btnFolderBrowser.Name = "btnFolderBrowser";
+            this.btnFolderBrowser.Size = new System.Drawing.Size(93, 28);
+            this.btnFolderBrowser.TabIndex = 6;
+            this.btnFolderBrowser.Text = "浏览";
+            this.btnFolderBrowser.UseVisualStyleBackColor = true;
+            this.btnFolderBrowser.Click += new System.EventHandler(this.btnFolderBrowser_Click);
+            // 
+            // btnGoGoGo
+            // 
+            this.btnGoGoGo.Location = new System.Drawing.Point(1116, 612);
+            this.btnGoGoGo.Name = "btnGoGoGo";
+            this.btnGoGoGo.Size = new System.Drawing.Size(125, 57);
+            this.btnGoGoGo.TabIndex = 7;
+            this.btnGoGoGo.Text = "生成代码";
+            this.btnGoGoGo.UseVisualStyleBackColor = true;
+            this.btnGoGoGo.Click += new System.EventHandler(this.btnGoGoGo_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.btnGoGoGo);
+            this.Controls.Add(this.btnFolderBrowser);
+            this.Controls.Add(this.textSavePath);
+            this.Controls.Add(this.labelOutputPath);
             this.Controls.Add(this.groupBoxTargetObject);
             this.Controls.Add(this.dgvColumns);
             this.Controls.Add(this.groupBoxLanguage);
@@ -333,6 +386,7 @@
             this.groupBoxTargetObject.ResumeLayout(false);
             this.groupBoxTargetObject.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -362,5 +416,10 @@
         private System.Windows.Forms.CheckBox checkBoxService;
         private System.Windows.Forms.CheckBox checkBoxDao;
         private System.Windows.Forms.CheckBox checkBoxEntity;
+        private System.Windows.Forms.Label labelOutputPath;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.TextBox textSavePath;
+        private System.Windows.Forms.Button btnFolderBrowser;
+        private System.Windows.Forms.Button btnGoGoGo;
     }
 }

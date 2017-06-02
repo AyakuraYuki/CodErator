@@ -2,7 +2,7 @@
 {
     class DBConnectHelper
     {
-        private static readonly DBConnectHelper instance = null; /* 单例设计 */
+        private static readonly DBConnectHelper instance = null;
         private string ip;
         private uint port;
         private string user;
