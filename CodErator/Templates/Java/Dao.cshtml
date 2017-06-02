@@ -1,0 +1,31 @@
+﻿@using System
+@using System.Collections.Generic
+@using System.Text
+@using CodErator.Model
+@using CodErator.GenerateHelper
+@{
+	Table table = (Table)Model;
+	string className = table.TableNale;
+	string daoName = className + "Dao";
+	List<Column> columns = table.Columns;
+}
+package dao;
+
+import java.util.List;
+import entity.@TemplateMethod.ToTitleCase(className) ;
+
+public interface @TemplateMethod.ToTitleCase(daoName) {
+
+	@TemplateMethod.ToTitleCase(className) get(@TemplateMethod.ToTitleCase(className) @className);
+
+	List<@TemplateMethod.ToTitleCase(className)> findList(@TemplateMethod.ToTitleCase(className) @className);
+
+	List<@TemplateMethod.ToTitleCase(className)> findAll();
+
+	int insert(@TemplateMethod.ToTitleCase(className) @className);
+
+	int update(@TemplateMethod.ToTitleCase(className) @className);
+
+	int delete(@TemplateMethod.ToTitleCase(className) @className);
+
+}

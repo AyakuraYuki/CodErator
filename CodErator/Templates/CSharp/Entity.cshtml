@@ -1,7 +1,31 @@
-﻿namespace YourProgramName
+﻿@using System
+@using System.Collections.Generic
+@using System.Text
+@using CodErator.Model
+@using CodErator.GenerateHelper
+@{
+	Table table = (Table)Model;
+	string className = table.TableNale;
+	List<Column> columns = table.Columns;
+}
+namespace YourProgramName
 {
-    class @Model.ClassName
-    {
-        @foreach ()
-    }
+    class @className
+	{
+	@foreach (Column c in columns)
+	{
+		string DataType = TemplateMethod.GetDataType(c.DataType);
+		string Field = c.ColumnName;
+		string Attribute = TemplateMethod.ToTitleCase(c.ColumnName);
+		string output = string.Format(@"
+		private {0} {1};
+        public {0} {2}
+        {{
+			get {{ return {1}; }}
+            set {{ {1} = value; }}
+        }}", DataType, Field, Attribute);
+
+		@(output)
+	}
+	}
 }

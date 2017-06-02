@@ -2,10 +2,9 @@
 using CodErator.DBHelper;
 using CodErator.DBHelper.MySQL;
 using CodErator.GenerateHelper;
-using RazorEngine;
-using RazorEngine.Configuration;
 using System;
 using System.Data;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -178,7 +177,7 @@ namespace CodErator
         {
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                textSavePath.Text = folderBrowserDialog.SelectedPath;
+                textSavePath.Text = folderBrowserDialog.SelectedPath + @"\CodEratorOutput";
             }
         }
         #endregion
@@ -229,7 +228,24 @@ namespace CodErator
             if (IsReadyToRun())
             {
                 SetOptions();
-                Generator.GoGoGo();
+                try
+                {
+                    Generator.GoGoGo();
+                }
+                catch (TemplateSyntaxErrorException exception)
+                {
+                    MessageBox.Show(exception.Message, "模板出了点问题");
+                }
+                if (Directory.Exists(optionHelper.OutputPath))
+                {
+                    MessageBox.Show("代码生成完成啦(o゜▽゜)o☆\n\n生成位置再确认一下吧：\n" +
+                        optionHelper.OutputPath, "成功！");
+                }
+                else
+                {
+                    MessageBox.Show("生成完成之后好像没有发现生成的代码，可能出现了什么问题？\n\n" +
+                        "别担心，重新生成一次再把之后出现的异常提示告诉我，我会修理好的（；´д｀）ゞ", "不好！");
+                }
             }
             else
                 return;

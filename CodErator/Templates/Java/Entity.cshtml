@@ -1,4 +1,7 @@
-﻿@using CodErator.Model
+﻿@using System
+@using System.Collections.Generic
+@using System.Text
+@using CodErator.Model
 @using CodErator.GenerateHelper
 @{
 	Table table = (Table)Model;
@@ -7,38 +10,30 @@
 }
 package entity;
 
-public class @className {
-
+public class @TemplateMethod.ToTitleCase(className) {
 @foreach (Column c in columns)
 {
+	string DataType = TemplateMethod.GetDataType(c.DataType);
+	string Field = c.ColumnName;
 	string output = string.Format(@"
-	private {0} {1};
-	", TemplateMethod.GetDataType(c.DataType), c.ColumnName);
-
+	private {0} {1};", DataType, Field);
 	@(output)
 }
 
 @foreach (Column c in columns)
 {
+	string DataType = TemplateMethod.GetDataType(c.DataType);
+	string Field = c.ColumnName;
+	string Attribute = TemplateMethod.ToTitleCase(c.ColumnName);
 	string output = string.Format(@"
-	public {0} get{1}() {
-		return this.{2};
-	}
+	public {0} {1} () {{
+		return this.{3};
+	}}
 
-	public void set{3}({4} {5}) {
-		this.{6} = {7};
-	}
-
-	",
-	TemplateMethod.GetDataType(c.DataType),
-	c.ColumnName,
-	c.ColumnName,
-	c.ColumnName,
-	TemplateMethod.GetDataType(c.DataType),
-	c.ColumnName,
-	c.ColumnName,
-	c.ColumnName);
-
+	public void {2} ({0} {3}) {{
+		this.{3} = {3};
+	}}
+	", DataType, "get" + Attribute, "set" + Attribute, Field);
 	@(output)
 }
 

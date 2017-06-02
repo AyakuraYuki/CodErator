@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomException\NoDatabaseSelectedException.cs" />
+    <Compile Include="CustomException\TemplateSyntaxErrorException.cs" />
     <Compile Include="DBHelper\MySQL\MySQLHelper.cs" />
     <Compile Include="CustomException\DatabaseConnectingException.cs" />
     <Compile Include="DBHelper\TemplateKey.cs" />
@@ -121,7 +122,13 @@
     <None Include="Templates\CSharp\Entity.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\Java\Dao.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\Java\Entity.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\Java\Service.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -48,5 +48,10 @@ namespace CodErator.GenerateHelper
                 default: return "Object";
             }
         }
+
+        public static string ToTitleCase(string text)
+        {
+            return (text.Substring(0, 1).ToUpper() + text.Substring(1));
+        }
     }
 }

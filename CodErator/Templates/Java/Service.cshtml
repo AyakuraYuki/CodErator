@@ -1,0 +1,52 @@
+﻿@using System
+@using System.Collections.Generic
+@using System.Text
+@using CodErator.Model
+@using CodErator.GenerateHelper
+@{
+	Table table = (Table)Model;
+	string className = table.TableNale;
+	string daoName = className + "Dao";
+	string serviceName = className + "Service";
+	List<Column> columns = table.Columns;
+	string autowiredAnnotation = "@Autowired";
+}
+package service;
+
+import dao.@TemplateMethod.ToTitleCase(daoName) ;
+import entity.@TemplateMethod.ToTitleCase(className) ;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+public class @TemplateMethod.ToTitleCase(serviceName) {
+
+	@autowiredAnnotation
+	private @TemplateMethod.ToTitleCase(daoName) dao;
+
+	public @TemplateMethod.ToTitleCase(className) get(String id) {
+		return dao.get(id);
+	}
+
+	public List<@TemplateMethod.ToTitleCase(className)> findList(@TemplateMethod.ToTitleCase(className) @className) {
+		return dao.findList(@className);
+	}
+
+	public List<@TemplateMethod.ToTitleCase(className)> findAll() {
+		return dao.findAll();
+	}
+
+	public int insert(@TemplateMethod.ToTitleCase(className) @className) {
+		return dao.insert(@className);
+	}
+
+	public int update(@TemplateMethod.ToTitleCase(className) @className) {
+		return dao.update(@className);
+	}
+
+	public int delete(@TemplateMethod.ToTitleCase(className) @className) {
+		return dao.delete(@className);
+	}
+
+}
