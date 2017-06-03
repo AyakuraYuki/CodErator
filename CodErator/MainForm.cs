@@ -190,6 +190,11 @@ namespace CodErator
                 MessageBox.Show("请先连接到数据库啦！！ヽ(*。>Д<)o゜", "没有连接到数据库");
                 return false;
             }
+			if (optionHelper.SelectedTables.Count==0)
+			{
+				MessageBox.Show("先选择至少一张表啦！(╯‵□′)╯•••*～●","没有选表？");
+				return false;
+			}
             if (!radioButtonJava.Checked && !radioButtonCSharp.Checked)
             {
                 MessageBox.Show("一定要选择一个目标语言用于生成(￣▽￣)\"", "没有选择目标语言");
