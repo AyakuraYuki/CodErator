@@ -11,6 +11,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,7 +24,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -40,13 +40,15 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>CodErator.Program</StartupObject>
@@ -153,26 +155,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="lib\MySql.Data.dll" />
-    <EmbeddedResource Include="lib\MySql.Data.Entity.EF5.dll" />
-    <EmbeddedResource Include="lib\MySql.Data.Entity.EF6.dll" />
-    <EmbeddedResource Include="lib\MySql.Fabric.Plugin.dll" />
-    <EmbeddedResource Include="lib\MySql.Web.dll" />
+    <None Include="lib\MySql.Data.dll" />
+    <None Include="lib\MySql.Data.Entity.EF5.dll" />
+    <None Include="lib\MySql.Data.Entity.EF6.dll" />
+    <None Include="lib\MySql.Fabric.Plugin.dll" />
+    <None Include="lib\MySql.Web.dll" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\logo.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Resources\logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\logo2.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Resources\logo2.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\StatusCriticalError.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Resources\StatusCriticalError.ico" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -181,8 +177,8 @@
     <Folder Include="DBHelper\SQLServer\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\RazorEngine.dll" />
-    <Content Include="lib\System.Web.Razor.dll" />
+    <None Include="lib\RazorEngine.dll" />
+    <None Include="lib\System.Web.Razor.dll" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
