@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodErator.CustomException
 {
+	[Serializable]
     class TemplateSyntaxErrorException : ApplicationException
     {
         public TemplateSyntaxErrorException() { }

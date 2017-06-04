@@ -2,6 +2,7 @@
 
 namespace CodErator.CustomException
 {
+	[Serializable]
     class NoDatabaseSelectedException : ApplicationException
     {
         public NoDatabaseSelectedException() { }

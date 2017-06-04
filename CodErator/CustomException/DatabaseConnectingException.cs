@@ -2,6 +2,7 @@
 
 namespace CodErator.CustomException
 {
+	[Serializable]
     class DatabaseConnectingException : ApplicationException
     {
         public DatabaseConnectingException() { }
