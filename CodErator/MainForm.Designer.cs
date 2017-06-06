@@ -225,10 +225,6 @@
 			this.errorProvider.ContainerControl = this;
 			this.errorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("errorProvider.Icon")));
 			// 
-			// mySQLHelperBindingSource
-			// 
-			this.mySQLHelperBindingSource.DataSource = typeof(CodErator.DBHelper.MySQL.MySQLHelper);
-			// 
 			// dgvColumns
 			// 
 			this.dgvColumns.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
