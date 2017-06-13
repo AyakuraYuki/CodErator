@@ -23,36 +23,6 @@ namespace CodErator
 			optionHelper = OptionHelper.Instance;
 		}
 
-		#region 控件悬停提示
-		private void text_MouseEnter(object sender, EventArgs e)
-		{
-			if (((TextBox)sender).Equals(textIP))
-				infoTip.SetToolTip(textIP, "输入需要连接的数据库IP地址");
-			if (((TextBox)sender).Equals(textPort))
-				infoTip.SetToolTip(textPort, "输入需要连接到的端口号，端口范围0 - 65536。");
-			if (((TextBox)sender).Equals(textUser))
-				infoTip.SetToolTip(textUser, "数据库连接用户名");
-			if (((TextBox)sender).Equals(textPass))
-				infoTip.SetToolTip(textPass, "数据库连接密码");
-			if (((TextBox)sender).Equals(textSchema))
-				infoTip.SetToolTip(textSchema, "需要访问的数据库名称(schema name)");
-		}
-
-		private void text_MouseLeave(object sender, EventArgs e)
-		{
-			if (((TextBox)sender).Equals(textIP))
-				infoTip.Hide(textIP);
-			if (((TextBox)sender).Equals(textPort))
-				infoTip.Hide(textPort);
-			if (((TextBox)sender).Equals(textUser))
-				infoTip.Hide(textUser);
-			if (((TextBox)sender).Equals(textPass))
-				infoTip.Hide(textPass);
-			if (((TextBox)sender).Equals(textSchema))
-				infoTip.Hide(textSchema);
-		}
-		#endregion
-
 		#region 数据库连接
 		private void textIP_Leave(object sender, EventArgs e)
 		{
@@ -158,21 +128,28 @@ namespace CodErator
 		}
 		#endregion
 
-		#region 生成选项处理，主要功能是获取保存位置
-		private void radioButtonCSharp_CheckedChanged(object sender, EventArgs e)
+		#region 模板文件操作
+		private void btnAddTemplate_Click(object sender, EventArgs e)
 		{
-			if (radioButtonCSharp.Checked == true)
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				checkBoxDao.Enabled = false;
-				checkBoxService.Enabled = false;
-			}
-			else
-			{
-				checkBoxDao.Enabled = true;
-				checkBoxService.Enabled = true;
+				templateList.Items.AddRange(openFileDialog.FileNames);
 			}
 		}
 
+		private void btnDelTemplate_Click(object sender, EventArgs e)
+		{
+			// 批量删除
+			object[] selectedItems = new object[templateList.SelectedItems.Count];
+			templateList.SelectedItems.CopyTo(selectedItems, 0);
+			foreach (object obj in selectedItems)
+			{
+				templateList.Items.Remove(obj);
+			}
+		}
+		#endregion
+
+		#region 生成选项处理，主要功能是获取保存位置
 		private void btnFolderBrowser_Click(object sender, EventArgs e)
 		{
 			if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
@@ -190,16 +167,6 @@ namespace CodErator
 				MessageBox.Show("请先连接到数据库啦！！ヽ(*。>Д<)o゜", "没有连接到数据库");
 				return false;
 			}
-			if (!radioButtonJava.Checked && !radioButtonCSharp.Checked)
-			{
-				MessageBox.Show("一定要选择一个目标语言用于生成(￣▽￣)\"", "没有选择目标语言");
-				return false;
-			}
-			if (!checkBoxEntity.Checked && !checkBoxDao.Checked && !checkBoxService.Checked)
-			{
-				MessageBox.Show("如果您没有选择生成模板，生成器将不会运行噢ㄟ( ▔, ▔ )ㄏ\n\n停止当前操作，您的代码生成请求已被取消。", "没有选择模板");
-				return false;
-			}
 			if (textSavePath.Text.Equals(string.Empty))
 			{
 				MessageBox.Show("没有选择生成代码输出的路径的话，您的请求是不会被执行的( *^-^)ρ(*╯^╰)\n\n您的代码生成请求已被取消。", "请选择生成代码保存的位置");
@@ -211,16 +178,13 @@ namespace CodErator
 		// 生成选项信息初始化
 		private void SetOptions()
 		{
-			optionHelper.IsJava = radioButtonJava.Checked;
-			optionHelper.IsCSharp = radioButtonCSharp.Checked;
-			optionHelper.HasEntity = checkBoxEntity.Checked;
-			optionHelper.HasDao = checkBoxDao.Checked;
-			optionHelper.HasService = checkBoxService.Checked;
 			optionHelper.OutputPath = textSavePath.Text;
+
 			for (int i = 0; i < tableList.SelectedItems.Count; i++)
-			{
 				optionHelper.SelectedTables.Add(tableList.SelectedItems[i].ToString());
-			}
+
+			for (int i = 0; i < templateList.SelectedItems.Count; i++)
+				optionHelper.SelectedTemplates.Add(templateList.SelectedItems[i].ToString());
 		}
 
 		private void btnGoGoGo_Click(object sender, EventArgs e)
@@ -228,6 +192,7 @@ namespace CodErator
 			if (IsReadyToRun())
 			{
 				SetOptions();
+
 				if (optionHelper.SelectedTables.Count == 0)
 				{
 					MessageBox.Show("先选择至少一张表啦！(╯‵□′)╯•••*～●", "没有选表？");
@@ -238,10 +203,15 @@ namespace CodErator
 				{
 					Generator.GoGoGo();
 				}
+				catch (NullExtensionException exception)
+				{
+					MessageBox.Show(exception.Message, "模板未定义扩展名");
+				}
 				catch (TemplateSyntaxErrorException exception)
 				{
 					MessageBox.Show(exception.Message, "模板出了点问题");
 				}
+
 				if (Directory.Exists(optionHelper.OutputPath))
 				{
 					MessageBox.Show("代码生成完成啦(o゜▽゜)o☆\n\n生成位置再确认一下吧：\n" +

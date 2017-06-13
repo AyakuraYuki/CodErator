@@ -1,0 +1,70 @@
+﻿@using System
+@using System.Collections.Generic
+@using System.Text
+@using CodErator.Model
+@using CodErator.GenerateHelper
+@{
+	Table table = (Table)Model;
+	string className = table.TableNale;
+	string daoName = className + "Dao";
+	List<Column> columns = table.Columns;
+    int n=columns.Count;
+}
+package dao;
+
+
+import java.util.List;
+import dto.@TemplateMethod.ToTitleCase(className) ;
+
+public class @TemplateMethod.ToTitleCase(className) {
+
+            @foreach (Column c in columns)
+            {
+            string DataType = TemplateMethod.GetDataType(c.DataType);
+            string Field = c.ColumnName;
+            string output = string.Format(@"
+            private {0} {1};", DataType, Field);
+            @(output)
+            }
+
+
+            public @TemplateMethod.ToTitleCase(className) (){}
+
+            public @TemplateMethod.ToTitleCase(className) (@for(int i=0;i<=n-1;i++)
+                {    string DataType = TemplateMethod.GetDataType(columns[i].DataType);
+                     string Field = columns[i].ColumnName;
+                     string output="";
+                    if (i <=n-2)
+                     {output = string.Format(@"{0} {1},", DataType, Field);}
+                    else if (i <=n-1)
+                     {output = string.Format(@"{0} {1}", DataType, Field);}
+                @(output)
+            }){@foreach (Column c in columns)
+                 {
+                    string Field = c.ColumnName;
+                    string output1 =string.Format(@"
+                    this.{0} = {0};", Field);
+                    @(output1)
+                  }
+
+            }
+            @foreach (Column c in columns)
+            {
+            string DataType = TemplateMethod.GetDataType(c.DataType);
+            string Field = c.ColumnName;
+            string Attribute = TemplateMethod.ToTitleCase(c.ColumnName);
+            string output = string.Format(@"
+            public {0} {1} () {{
+		return this.{3};
+            }}
+
+            public void {2} ({0} {3}) {{
+		this.{3} = {3};
+            }}
+            ", DataType, "get" + Attribute, "set" + Attribute, Field);
+            @(output)
+            }
+
+
+
+}

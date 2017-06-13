@@ -6,72 +6,51 @@ using System.Threading.Tasks;
 
 namespace CodErator.GenerateHelper
 {
-    class OptionHelper
-    {
-        private static readonly OptionHelper instance = null;
-        private bool isJava;
-        private bool isCSharp;
-        private bool hasEntity;
-        private bool hasDao;
-        private bool hasService;
-        private string outputPath;
-        private List<string> selectedTables;
+	class OptionHelper
+	{
+		private static readonly OptionHelper instance = null;
+		private string outputPath;
+		private string extension;
+		private List<string> selectedTables;
+		private List<string> selectedTemplates;
 
-        static OptionHelper()
-        {
-            instance = new OptionHelper();
-        }
+		static OptionHelper()
+		{
+			instance = new OptionHelper();
+		}
 
-        private OptionHelper()
-        {
-            SelectedTables = new List<string>();
-        }
+		private OptionHelper()
+		{
+			SelectedTables = new List<string>();
+		}
 
-        public static OptionHelper Instance
-        {
-            get => instance;
-        }
+		public static OptionHelper Instance
+		{
+			get => instance;
+		}
 
-        public bool IsJava
-        {
-            get => isJava;
-            set => isJava = value;
-        }
+		public string OutputPath
+		{
+			get => outputPath;
+			set => outputPath = value;
+		}
 
-        public bool IsCSharp
-        {
-            get => isCSharp;
-            set => isCSharp = value;
-        }
+		public string Extension
+		{
+			get => extension;
+			set => extension = value;
+		}
 
-        public bool HasEntity
-        {
-            get => hasEntity;
-            set => hasEntity = value;
-        }
+		public List<string> SelectedTables
+		{
+			get => selectedTables;
+			set => selectedTables = value;
+		}
 
-        public bool HasDao
-        {
-            get => hasDao;
-            set => hasDao = value;
-        }
-
-        public bool HasService
-        {
-            get => hasService;
-            set => hasService = value;
-        }
-
-        public string OutputPath
-        {
-            get => outputPath;
-            set => outputPath = value;
-        }
-
-        public List<string> SelectedTables
-        {
-            get => selectedTables;
-            set => selectedTables = value;
-        }
-    }
+		public List<string> SelectedTemplates
+		{
+			get => selectedTemplates;
+			set => selectedTemplates = value;
+		}
+	}
 }

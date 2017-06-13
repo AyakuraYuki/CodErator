@@ -15,7 +15,11 @@
 		{
 			if (disposing && (components != null))
 			{
-				mysqlHelper.Dispose();
+				if (mysqlHelper != null)
+				{
+					mysqlHelper.Dispose();
+				}
+
 				components.Dispose();
 			}
 			base.Dispose(disposing);
@@ -45,27 +49,22 @@
 			this.labelIP = new System.Windows.Forms.Label();
 			this.infoTip = new System.Windows.Forms.ToolTip(this.components);
 			this.tableList = new System.Windows.Forms.ListBox();
+			this.templateList = new System.Windows.Forms.ListBox();
 			this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
 			this.mySQLHelperBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.dgvColumns = new System.Windows.Forms.DataGridView();
-			this.radioButtonJava = new System.Windows.Forms.RadioButton();
-			this.radioButtonCSharp = new System.Windows.Forms.RadioButton();
-			this.groupBoxLanguage = new System.Windows.Forms.GroupBox();
-			this.groupBoxTargetObject = new System.Windows.Forms.GroupBox();
-			this.checkBoxService = new System.Windows.Forms.CheckBox();
-			this.checkBoxDao = new System.Windows.Forms.CheckBox();
-			this.checkBoxEntity = new System.Windows.Forms.CheckBox();
 			this.labelOutputPath = new System.Windows.Forms.Label();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.textSavePath = new System.Windows.Forms.TextBox();
 			this.btnFolderBrowser = new System.Windows.Forms.Button();
 			this.btnGoGoGo = new System.Windows.Forms.Button();
+			this.btnAddTemplate = new System.Windows.Forms.Button();
+			this.btnDelTemplate = new System.Windows.Forms.Button();
+			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.groupBoxConnectInfo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.mySQLHelperBindingSource)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).BeginInit();
-			this.groupBoxLanguage.SuspendLayout();
-			this.groupBoxTargetObject.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupBoxConnectInfo
@@ -96,8 +95,6 @@
 			this.textSchema.TabIndex = 10;
 			this.infoTip.SetToolTip(this.textSchema, "需要访问的数据库名称(schema name)");
 			this.textSchema.Leave += new System.EventHandler(this.textSchema_Leave);
-			this.textSchema.MouseEnter += new System.EventHandler(this.text_MouseEnter);
-			this.textSchema.MouseLeave += new System.EventHandler(this.text_MouseLeave);
 			// 
 			// textPass
 			// 
@@ -108,8 +105,6 @@
 			this.textPass.TabIndex = 9;
 			this.infoTip.SetToolTip(this.textPass, "数据库连接密码");
 			this.textPass.Leave += new System.EventHandler(this.textPass_Leave);
-			this.textPass.MouseEnter += new System.EventHandler(this.text_MouseEnter);
-			this.textPass.MouseLeave += new System.EventHandler(this.text_MouseLeave);
 			// 
 			// textUser
 			// 
@@ -119,8 +114,6 @@
 			this.textUser.TabIndex = 8;
 			this.infoTip.SetToolTip(this.textUser, "数据库连接用户名");
 			this.textUser.Leave += new System.EventHandler(this.textUser_Leave);
-			this.textUser.MouseEnter += new System.EventHandler(this.text_MouseEnter);
-			this.textUser.MouseLeave += new System.EventHandler(this.text_MouseLeave);
 			// 
 			// textPort
 			// 
@@ -130,8 +123,6 @@
 			this.textPort.TabIndex = 7;
 			this.infoTip.SetToolTip(this.textPort, "输入需要连接到的端口号，端口范围0 - 65536。");
 			this.textPort.Leave += new System.EventHandler(this.textPort_Leave);
-			this.textPort.MouseEnter += new System.EventHandler(this.text_MouseEnter);
-			this.textPort.MouseLeave += new System.EventHandler(this.text_MouseLeave);
 			// 
 			// textIP
 			// 
@@ -141,8 +132,6 @@
 			this.textIP.TabIndex = 6;
 			this.infoTip.SetToolTip(this.textIP, "输入需要连接的数据库IP地址");
 			this.textIP.Leave += new System.EventHandler(this.textIP_Leave);
-			this.textIP.MouseEnter += new System.EventHandler(this.text_MouseEnter);
-			this.textIP.MouseLeave += new System.EventHandler(this.text_MouseLeave);
 			// 
 			// btnConnect
 			// 
@@ -219,6 +208,18 @@
 			this.infoTip.SetToolTip(this.tableList, "多选以选择需要生成的表");
 			this.tableList.SelectedIndexChanged += new System.EventHandler(this.tableList_SelectedIndexChanged);
 			// 
+			// templateList
+			// 
+			this.templateList.Font = new System.Drawing.Font("微软雅黑", 9F);
+			this.templateList.FormattingEnabled = true;
+			this.templateList.ItemHeight = 17;
+			this.templateList.Location = new System.Drawing.Point(309, 515);
+			this.templateList.Name = "templateList";
+			this.templateList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+			this.templateList.Size = new System.Drawing.Size(366, 157);
+			this.templateList.TabIndex = 8;
+			this.infoTip.SetToolTip(this.templateList, "选择使用的模板文件，列表中的所有项都将被使用");
+			// 
 			// errorProvider
 			// 
 			this.errorProvider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
@@ -237,86 +238,10 @@
 			this.dgvColumns.Size = new System.Drawing.Size(943, 494);
 			this.dgvColumns.TabIndex = 0;
 			// 
-			// radioButtonJava
-			// 
-			this.radioButtonJava.AutoSize = true;
-			this.radioButtonJava.Location = new System.Drawing.Point(20, 60);
-			this.radioButtonJava.Name = "radioButtonJava";
-			this.radioButtonJava.Size = new System.Drawing.Size(57, 24);
-			this.radioButtonJava.TabIndex = 0;
-			this.radioButtonJava.TabStop = true;
-			this.radioButtonJava.Text = "Java";
-			this.radioButtonJava.UseVisualStyleBackColor = true;
-			// 
-			// radioButtonCSharp
-			// 
-			this.radioButtonCSharp.AutoSize = true;
-			this.radioButtonCSharp.Location = new System.Drawing.Point(20, 30);
-			this.radioButtonCSharp.Name = "radioButtonCSharp";
-			this.radioButtonCSharp.Size = new System.Drawing.Size(47, 24);
-			this.radioButtonCSharp.TabIndex = 1;
-			this.radioButtonCSharp.TabStop = true;
-			this.radioButtonCSharp.Text = "C#";
-			this.radioButtonCSharp.UseVisualStyleBackColor = true;
-			this.radioButtonCSharp.CheckedChanged += new System.EventHandler(this.radioButtonCSharp_CheckedChanged);
-			// 
-			// groupBoxLanguage
-			// 
-			this.groupBoxLanguage.Controls.Add(this.radioButtonCSharp);
-			this.groupBoxLanguage.Controls.Add(this.radioButtonJava);
-			this.groupBoxLanguage.Location = new System.Drawing.Point(309, 512);
-			this.groupBoxLanguage.Name = "groupBoxLanguage";
-			this.groupBoxLanguage.Size = new System.Drawing.Size(107, 157);
-			this.groupBoxLanguage.TabIndex = 2;
-			this.groupBoxLanguage.TabStop = false;
-			this.groupBoxLanguage.Text = "目标语言";
-			// 
-			// groupBoxTargetObject
-			// 
-			this.groupBoxTargetObject.Controls.Add(this.checkBoxService);
-			this.groupBoxTargetObject.Controls.Add(this.checkBoxDao);
-			this.groupBoxTargetObject.Controls.Add(this.checkBoxEntity);
-			this.groupBoxTargetObject.Location = new System.Drawing.Point(422, 512);
-			this.groupBoxTargetObject.Name = "groupBoxTargetObject";
-			this.groupBoxTargetObject.Size = new System.Drawing.Size(107, 157);
-			this.groupBoxTargetObject.TabIndex = 3;
-			this.groupBoxTargetObject.TabStop = false;
-			this.groupBoxTargetObject.Text = "生成目标";
-			// 
-			// checkBoxService
-			// 
-			this.checkBoxService.AutoSize = true;
-			this.checkBoxService.Location = new System.Drawing.Point(20, 90);
-			this.checkBoxService.Name = "checkBoxService";
-			this.checkBoxService.Size = new System.Drawing.Size(81, 24);
-			this.checkBoxService.TabIndex = 2;
-			this.checkBoxService.Text = "Service";
-			this.checkBoxService.UseVisualStyleBackColor = true;
-			// 
-			// checkBoxDao
-			// 
-			this.checkBoxDao.AutoSize = true;
-			this.checkBoxDao.Location = new System.Drawing.Point(20, 60);
-			this.checkBoxDao.Name = "checkBoxDao";
-			this.checkBoxDao.Size = new System.Drawing.Size(57, 24);
-			this.checkBoxDao.TabIndex = 1;
-			this.checkBoxDao.Text = "Dao";
-			this.checkBoxDao.UseVisualStyleBackColor = true;
-			// 
-			// checkBoxEntity
-			// 
-			this.checkBoxEntity.AutoSize = true;
-			this.checkBoxEntity.Location = new System.Drawing.Point(20, 30);
-			this.checkBoxEntity.Name = "checkBoxEntity";
-			this.checkBoxEntity.Size = new System.Drawing.Size(69, 24);
-			this.checkBoxEntity.TabIndex = 0;
-			this.checkBoxEntity.Text = "Entity";
-			this.checkBoxEntity.UseVisualStyleBackColor = true;
-			// 
 			// labelOutputPath
 			// 
 			this.labelOutputPath.AutoSize = true;
-			this.labelOutputPath.Location = new System.Drawing.Point(562, 512);
+			this.labelOutputPath.Location = new System.Drawing.Point(815, 523);
 			this.labelOutputPath.Name = "labelOutputPath";
 			this.labelOutputPath.Size = new System.Drawing.Size(69, 20);
 			this.labelOutputPath.TabIndex = 4;
@@ -324,15 +249,15 @@
 			// 
 			// textSavePath
 			// 
-			this.textSavePath.Font = new System.Drawing.Font("微软雅黑", 10F);
-			this.textSavePath.Location = new System.Drawing.Point(566, 542);
+			this.textSavePath.Font = new System.Drawing.Font("微软雅黑", 9F);
+			this.textSavePath.Location = new System.Drawing.Point(819, 553);
 			this.textSavePath.Name = "textSavePath";
-			this.textSavePath.Size = new System.Drawing.Size(564, 25);
+			this.textSavePath.Size = new System.Drawing.Size(433, 23);
 			this.textSavePath.TabIndex = 5;
 			// 
 			// btnFolderBrowser
 			// 
-			this.btnFolderBrowser.Location = new System.Drawing.Point(1148, 540);
+			this.btnFolderBrowser.Location = new System.Drawing.Point(1159, 519);
 			this.btnFolderBrowser.Name = "btnFolderBrowser";
 			this.btnFolderBrowser.Size = new System.Drawing.Size(93, 28);
 			this.btnFolderBrowser.TabIndex = 6;
@@ -342,7 +267,7 @@
 			// 
 			// btnGoGoGo
 			// 
-			this.btnGoGoGo.Location = new System.Drawing.Point(1116, 612);
+			this.btnGoGoGo.Location = new System.Drawing.Point(1127, 615);
 			this.btnGoGoGo.Name = "btnGoGoGo";
 			this.btnGoGoGo.Size = new System.Drawing.Size(125, 57);
 			this.btnGoGoGo.TabIndex = 7;
@@ -350,18 +275,43 @@
 			this.btnGoGoGo.UseVisualStyleBackColor = true;
 			this.btnGoGoGo.Click += new System.EventHandler(this.btnGoGoGo_Click);
 			// 
+			// btnAddTemplate
+			// 
+			this.btnAddTemplate.Location = new System.Drawing.Point(681, 598);
+			this.btnAddTemplate.Name = "btnAddTemplate";
+			this.btnAddTemplate.Size = new System.Drawing.Size(114, 34);
+			this.btnAddTemplate.TabIndex = 9;
+			this.btnAddTemplate.Text = "添加模板";
+			this.btnAddTemplate.UseVisualStyleBackColor = true;
+			this.btnAddTemplate.Click += new System.EventHandler(this.btnAddTemplate_Click);
+			// 
+			// btnDelTemplate
+			// 
+			this.btnDelTemplate.Location = new System.Drawing.Point(681, 638);
+			this.btnDelTemplate.Name = "btnDelTemplate";
+			this.btnDelTemplate.Size = new System.Drawing.Size(114, 34);
+			this.btnDelTemplate.TabIndex = 10;
+			this.btnDelTemplate.Text = "删除所选模板";
+			this.btnDelTemplate.UseVisualStyleBackColor = true;
+			this.btnDelTemplate.Click += new System.EventHandler(this.btnDelTemplate_Click);
+			// 
+			// openFileDialog
+			// 
+			this.openFileDialog.Multiselect = true;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1264, 681);
+			this.Controls.Add(this.btnDelTemplate);
+			this.Controls.Add(this.btnAddTemplate);
+			this.Controls.Add(this.templateList);
 			this.Controls.Add(this.btnGoGoGo);
 			this.Controls.Add(this.btnFolderBrowser);
 			this.Controls.Add(this.textSavePath);
 			this.Controls.Add(this.labelOutputPath);
-			this.Controls.Add(this.groupBoxTargetObject);
 			this.Controls.Add(this.dgvColumns);
-			this.Controls.Add(this.groupBoxLanguage);
 			this.Controls.Add(this.tableList);
 			this.Controls.Add(this.groupBoxConnectInfo);
 			this.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -378,10 +328,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.mySQLHelperBindingSource)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).EndInit();
-			this.groupBoxLanguage.ResumeLayout(false);
-			this.groupBoxLanguage.PerformLayout();
-			this.groupBoxTargetObject.ResumeLayout(false);
-			this.groupBoxTargetObject.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -406,17 +352,14 @@
 		private System.Windows.Forms.TextBox textSchema;
 		private System.Windows.Forms.BindingSource mySQLHelperBindingSource;
 		private System.Windows.Forms.DataGridView dgvColumns;
-		private System.Windows.Forms.RadioButton radioButtonCSharp;
-		private System.Windows.Forms.RadioButton radioButtonJava;
-		private System.Windows.Forms.GroupBox groupBoxLanguage;
-		private System.Windows.Forms.GroupBox groupBoxTargetObject;
-		private System.Windows.Forms.CheckBox checkBoxService;
-		private System.Windows.Forms.CheckBox checkBoxDao;
-		private System.Windows.Forms.CheckBox checkBoxEntity;
 		private System.Windows.Forms.Label labelOutputPath;
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
 		private System.Windows.Forms.TextBox textSavePath;
 		private System.Windows.Forms.Button btnFolderBrowser;
 		private System.Windows.Forms.Button btnGoGoGo;
+		private System.Windows.Forms.ListBox templateList;
+		private System.Windows.Forms.Button btnDelTemplate;
+		private System.Windows.Forms.Button btnAddTemplate;
+		private System.Windows.Forms.OpenFileDialog openFileDialog;
 	}
 }

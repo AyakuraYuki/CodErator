@@ -8,7 +8,7 @@ namespace CodErator.Model
 {
     public class Table
     {
-        public string TableNale { get; set; }
+        public string TableName { get; set; }
 
         private List<Column> columns;
         public List<Column> Columns

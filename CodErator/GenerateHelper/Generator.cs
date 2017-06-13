@@ -1,17 +1,11 @@
 ﻿using CodErator.CustomException;
-using CodErator.DBHelper;
 using CodErator.DBHelper.MySQL;
 using CodErator.Model;
 using RazorEngine;
-using RazorEngine.Configuration;
 using RazorEngine.Templating;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodErator.GenerateHelper
 {
@@ -32,7 +26,7 @@ namespace CodErator.GenerateHelper
 			for (int i = 0; i < tables.Length; i++)
 			{
 				tables[i] = new Table();
-				tables[i].TableNale = optionHelper.SelectedTables[i];
+				tables[i].TableName = optionHelper.SelectedTables[i];
 				DataTable tableInfo = mysqlHelper.GetTableColumns(optionHelper.SelectedTables[i]);
 				for (int j = 0; j < tableInfo.Rows.Count; j++)
 				{
@@ -57,13 +51,7 @@ namespace CodErator.GenerateHelper
 		/// <returns></returns>
 		private static string OpenTemplate(string templateName)
 		{
-			string path = string.Empty;
-			if (optionHelper.IsJava)
-				path = Path.Combine("Templates/Java", templateName + ".cshtml");
-			else if (optionHelper.IsCSharp)
-				path = Path.Combine("Templates/CSharp", templateName + ".cshtml");
-			else
-				return string.Empty;
+			string path = templateName;
 			return File.ReadAllText(path);
 		}
 
@@ -72,21 +60,9 @@ namespace CodErator.GenerateHelper
 		/// </summary>
 		/// <param name="path"></param>
 		/// <param name="result"></param>
-		private static void Save(string folder, string filename, string input, TemplateKey key)
+		private static void Save(string folder, string filename, string input, string key)
 		{
 			byte[] result = System.Text.Encoding.GetEncoding("utf-8").GetBytes(input);
-			switch (key)
-			{
-				case TemplateKey.Entity:
-					folder += @"\entity";
-					break;
-				case TemplateKey.Dao:
-					folder += @"\dao";
-					break;
-				case TemplateKey.Service:
-					folder += @"\service";
-					break;
-			}
 			if (!Directory.Exists(folder))
 			{
 				Directory.CreateDirectory(folder);
@@ -105,14 +81,14 @@ namespace CodErator.GenerateHelper
 		/// </summary>
 		/// <param name="template">模板文本</param>
 		/// <param name="table">表数据</param>
-		private static void FileOutput(string template, Table table, TemplateKey key, string filename)
+		private static void FileOutput(string template, Table table, string key, string filename)
 		{
 			var model = table;
 			string suffix = filename.Substring(filename.LastIndexOf("."));
 			string result = string.Empty;
 			try
 			{
-				result = Engine.Razor.RunCompile(template, key.ToString("G") + suffix, null, model);
+				result = Engine.Razor.RunCompile(template, key + suffix, null, model);
 			}
 			catch (FormatException e)
 			{
@@ -125,100 +101,30 @@ namespace CodErator.GenerateHelper
 			Save(optionHelper.OutputPath, filename, result, key);
 		}
 
-		private static void GenerateEntity(Table[] tables)
-		{
-			foreach (Table t in tables)
-			{
-				string template = OpenTemplate("Entity");
-				string filename = t.TableNale;
-				if (optionHelper.IsJava)
-					filename += ".java";
-				else if (optionHelper.IsCSharp)
-					filename += ".cs";
-				try
-				{
-					FileOutput(template, t, TemplateKey.Entity, filename);
-				}
-				catch (TemplateSyntaxErrorException)
-				{
-					throw;
-				}
-			}
-		}
-
-		private static void GenerateDao(Table[] tables)
-		{
-			foreach (Table t in tables)
-			{
-				string template = OpenTemplate("Dao");
-				string filename = t.TableNale;
-				if (optionHelper.IsJava)
-					filename += ".java";
-				else if (optionHelper.IsCSharp)
-					filename += ".cs";
-				try
-				{
-					FileOutput(template, t, TemplateKey.Dao, filename);
-				}
-				catch (TemplateSyntaxErrorException)
-				{
-					throw;
-				}
-			}
-		}
-
-		private static void GenerateService(Table[] tables)
-		{
-			foreach (Table t in tables)
-			{
-				string template = OpenTemplate("Service");
-				string filename = t.TableNale;
-				if (optionHelper.IsJava)
-					filename += ".java";
-				else if (optionHelper.IsCSharp)
-					filename += ".cs";
-				try
-				{
-					FileOutput(template, t, TemplateKey.Service, filename);
-				}
-				catch (TemplateSyntaxErrorException)
-				{
-					throw;
-				}
-			}
-		}
-
 		private static void Generating(Table[] tables)
 		{
-			if (optionHelper.HasEntity)
+			foreach (Table t in tables)
 			{
-				try
-				{
-					GenerateEntity(tables);
-				}
-				catch (TemplateSyntaxErrorException)
-				{
-					throw;
-				}
-			}
+				// 第一个foreach拿到所有表
+				// 接下来会有第二个for用来对每个表生成用户指定模板数量的代码
+				// 模板路径全部存放在optionHelper.SelectedTemplates内
 
-			if (optionHelper.HasDao)
-			{
-				try
-				{
-					GenerateDao(tables);
-				}
-				catch (TemplateSyntaxErrorException)
-				{
-					throw;
-				}
-			}
+				// 待修复
+				string template = OpenTemplate("");
+				string filename = t.TableName;
 
-			if (optionHelper.HasService)
-			{
+				if (optionHelper.Extension.Equals(string.Empty))
+				{
+					throw new NullExtensionException("模板内是不是忘了定义扩展名了？请在模板中调用TemplateMethod.SetExtension(extension)指定生成代码的文件扩展名！");
+				}
+				else
+				{
+					filename += optionHelper.Extension;
+				}
+
 				try
 				{
-					GenerateService(tables);
+					FileOutput(template, t, t.TableName, filename);
 				}
 				catch (TemplateSyntaxErrorException)
 				{
@@ -234,10 +140,8 @@ namespace CodErator.GenerateHelper
 			{
 				Generating(tables);
 			}
-			catch (TemplateSyntaxErrorException)
-			{
-				throw;
-			}
+			catch (NullExtensionException) { throw; }
+			catch (TemplateSyntaxErrorException) { throw; }
 		}
 	}
 }

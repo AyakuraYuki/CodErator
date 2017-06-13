@@ -9,49 +9,61 @@ using System.Threading.Tasks;
 
 namespace CodErator.GenerateHelper
 {
-    public class TemplateMethod
-    {
-        public static string GetDataType(string dataType)
-        {
-            dataType = dataType.ToUpper();
-            switch (dataType)
-            {
-                // number
-                case "TINYINT": return "int";
-                case "SMALLINT": return "int";
-                case "MEDIUMINT": return "int";
-                case "INT": return "int";
-                case "BIGINT": return "uint";
-                case "FLOAT": return "float";
-                case "DOUBLE": return "double";
-                case "DECIMAL": return "double";
+	public class TemplateMethod
+	{
+		private static OptionHelper optionHelper;
 
-                // date
-                case "DATE": return "String";
-                case "TIME": return "String";
-                case "YEAR": return "String";
-                case "DATETIME": return "String";
-                case "TIMESTAMP": return "String";
+		static TemplateMethod()
+		{
+			optionHelper = OptionHelper.Instance;
+		}
 
-                // string
-                case "CHAR": return "String";
-                case "VARCHAR": return "String";
-                case "TINYBLOB": return "Blob";
-                case "TINYTEXT": return "String";
-                case "BLOB": return "Blob";
-                case "TEXT": return "String";
-                case "MEDIUMBLOB": return "Blob";
-                case "MEDIUMTEXT": return "String";
-                case "LONGBLOB": return "Blob";
-                case "LONGTEXT": return "String";
+		public static string GetDataType(string dataType)
+		{
+			dataType = dataType.ToUpper();
+			switch (dataType)
+			{
+				// number
+				case "TINYINT": return "int";
+				case "SMALLINT": return "int";
+				case "MEDIUMINT": return "int";
+				case "INT": return "int";
+				case "BIGINT": return "uint";
+				case "FLOAT": return "float";
+				case "DOUBLE": return "double";
+				case "DECIMAL": return "double";
 
-                default: return "Object";
-            }
-        }
+				// date
+				case "DATE": return "String";
+				case "TIME": return "String";
+				case "YEAR": return "String";
+				case "DATETIME": return "String";
+				case "TIMESTAMP": return "String";
 
-        public static string ToTitleCase(string text)
-        {
-            return (text.Substring(0, 1).ToUpper() + text.Substring(1));
-        }
-    }
+				// string
+				case "CHAR": return "String";
+				case "VARCHAR": return "String";
+				case "TINYBLOB": return "Blob";
+				case "TINYTEXT": return "String";
+				case "BLOB": return "Blob";
+				case "TEXT": return "String";
+				case "MEDIUMBLOB": return "Blob";
+				case "MEDIUMTEXT": return "String";
+				case "LONGBLOB": return "Blob";
+				case "LONGTEXT": return "String";
+
+				default: return "Object";
+			}
+		}
+
+		public static string ToTitleCase(string text)
+		{
+			return (text.Substring(0, 1).ToUpper() + text.Substring(1));
+		}
+
+		public static void SetExtension(string extension)
+		{
+			optionHelper.Extension = extension;
+		}
+	}
 }
