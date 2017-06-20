@@ -114,7 +114,13 @@ namespace CodErator
 		#region 代码生成的数据预备，可以查看被生成的字段在数据库中的信息
 		private void tableList_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			DataTable dataTable = mysqlHelper.GetTableColumns(tableList.SelectedItem.ToString());
+			DataTable dataTable;
+
+			try
+			{
+				dataTable = mysqlHelper.GetTableColumns(tableList.SelectedItem.ToString());
+			}
+			catch (NullReferenceException) { return; }
 
 			dataTable.Columns["COLUMN_NAME"].ColumnName = "列名";
 			dataTable.Columns["IS_NULLABLE"].ColumnName = "允许为空";
@@ -179,12 +185,14 @@ namespace CodErator
 		private void SetOptions()
 		{
 			optionHelper.OutputPath = textSavePath.Text;
+			optionHelper.SelectedTables.Clear();
+			optionHelper.SelectedTemplates.Clear();
 
 			for (int i = 0; i < tableList.SelectedItems.Count; i++)
 				optionHelper.SelectedTables.Add(tableList.SelectedItems[i].ToString());
 
-			for (int i = 0; i < templateList.SelectedItems.Count; i++)
-				optionHelper.SelectedTemplates.Add(templateList.SelectedItems[i].ToString());
+			for (int i = 0; i < templateList.Items.Count; i++)
+				optionHelper.SelectedTemplates.Add(templateList.Items[i].ToString());
 		}
 
 		private void btnGoGoGo_Click(object sender, EventArgs e)
@@ -219,8 +227,7 @@ namespace CodErator
 				}
 				else
 				{
-					MessageBox.Show("生成完成之后好像没有发现生成的代码，可能出现了什么问题？\n\n" +
-						"别担心，重新生成一次再把之后出现的异常提示告诉我，我会修理好的（；´д｀）ゞ", "不好！");
+					MessageBox.Show("生成完成之后好像没有发现生成的代码，可能出现了什么问题？（；´д｀）ゞ", "不好！");
 				}
 			}
 			else

@@ -4,6 +4,7 @@
 @using CodErator.Model
 @using CodErator.GenerateHelper
 @{
+	TemplateMethod.SetExtension("java");
 	Table table = (Table)Model;
 	string className = table.TableNale;
 	string daoName = className + "Dao";

@@ -22,6 +22,7 @@ namespace CodErator.GenerateHelper
 		private OptionHelper()
 		{
 			SelectedTables = new List<string>();
+			SelectedTemplates = new List<string>();
 		}
 
 		public static OptionHelper Instance

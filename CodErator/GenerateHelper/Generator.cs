@@ -105,30 +105,27 @@ namespace CodErator.GenerateHelper
 		{
 			foreach (Table t in tables)
 			{
-				// 第一个foreach拿到所有表
-				// 接下来会有第二个for用来对每个表生成用户指定模板数量的代码
-				// 模板路径全部存放在optionHelper.SelectedTemplates内
+				foreach (string templateFile in optionHelper.SelectedTemplates)
+				{
+					string template = OpenTemplate(templateFile);
+					string filename = t.TableName;
 
-				// 待修复
-				string template = OpenTemplate("");
-				string filename = t.TableName;
+					if (optionHelper.Extension == null || optionHelper.Extension.Equals(string.Empty))
+					{
+						throw new NullExtensionException(
+							"模板内是不是忘了定义扩展名了？" +
+							"请在模板中调用TemplateMethod.SetExtension(extension)指定生成代码的文件扩展名！");
+					}
+					else
+					{
+						filename += (optionHelper.Extension.StartsWith(".")) ? optionHelper.Extension : "." + optionHelper.Extension;
+					}
 
-				if (optionHelper.Extension.Equals(string.Empty))
-				{
-					throw new NullExtensionException("模板内是不是忘了定义扩展名了？请在模板中调用TemplateMethod.SetExtension(extension)指定生成代码的文件扩展名！");
-				}
-				else
-				{
-					filename += optionHelper.Extension;
-				}
-
-				try
-				{
-					FileOutput(template, t, t.TableName, filename);
-				}
-				catch (TemplateSyntaxErrorException)
-				{
-					throw;
+					try
+					{
+						FileOutput(template, t, t.TableName, filename);
+					}
+					catch (TemplateSyntaxErrorException) { throw; }
 				}
 			}
 		}
